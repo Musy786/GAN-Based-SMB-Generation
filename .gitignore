@@ -1,0 +1,12 @@
+# Local environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Generated/training artifacts
+*.pt
+*.pth
+
+# Keep dataset archive in repo, but not extracted dataset directory
+data/
