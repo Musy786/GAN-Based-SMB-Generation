@@ -196,6 +196,16 @@ def train_gan(data_path="data/smb", z_dim=100, epochs=100, batch_size=32, legend
 # Visualisation
 def generate_and_visualise(G, z_dim=100, tile_map=None):
     # Generates and displays a level
+    # For portability, we import matplotlib here and raise an error if it's not available
+    # This error happens sometimes due to the way some environments handle dependencies
+    # So this way we can provide a clear message about how to resolve it
+    try:
+        import matplotlib.pyplot as plt
+    except ModuleNotFoundError as exc:
+        raise ModuleNotFoundError(
+            "matplotlib is required for visualisation. Install dependencies with: python -m pip install -r requirements.txt"
+        ) from exc
+
     G.eval()
 
     device = next(G.parameters()).device
@@ -205,15 +215,17 @@ def generate_and_visualise(G, z_dim=100, tile_map=None):
         output = G(z).squeeze(0).cpu().numpy()
         predicted = np.argmax(output, axis=0)
 
-        plt.imshow(predicted, cmap="tab20")
-        plt.title("Generated Level (Discrete Tiles)")
-        plt.colorbar()
-        plt.show()
-
         if tile_map:
             print("\nASCII Representation:")
             for row in predicted:
                 print("".join(tile_map.get(int(t), "?") for t in row))
+
+        plt.imshow(predicted, cmap="tab20")
+        plt.title("Generated Level (Discrete Tiles)")
+        plt.colorbar()
+        # Non-blocking show so the script can continue and exit without waiting for window close.
+        plt.show(block=False)
+        plt.pause(0.001)
 
 # This allows the script to be run directly for training and visualisation, while also allowing the functions to be 
 # imported and used in other contexts (like train_all.py).

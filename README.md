@@ -38,21 +38,37 @@ cd "GAN-Based-SMB-Generation"
 # Create a virtual environment
 python -m venv .venv
 
+# If `python` is not found
+# py -3.10 -m venv .venv
+
 # Install dependencies
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
+
+# If `python` is not found
+# py -m pip install -r requirements.txt
 
 # Extract datasets (required)
-# Ensure data.zip is extracted so the data folder exists at project root:
-# data/ge, data/pattern_count, data/smb, data/marioai_legend.json
+# IMPORTANT: After extraction, your final structure should be:
+# <root>/data/ge
+# <root>/data/pattern_count
+# <root>/data/smb
+# <root>/data/marioai_legend.json
 
-# Quick smoke test (fast): one epoch, SMB dataset, no visual window
+# Some unzip tools create an extra nested folder: <root>/data/data/...
+# If that happens, move the inner data contents up one level so legend.json is at:
+# <root>/data/smb/legend.json
+
+# Quick smoke test: one epoch, SMB dataset, no visual window
 python train_gan.py --epochs 1 --batch-size 8 --no-vis
+# Or py
 
 # Standard SMB training run
 python train_gan.py --epochs 100
+# Or py
 
 # Train on all datasets (ge, pattern_count, smb)
 python train_all.py
+# Or py
 ```
 
 ### PyTorch Install Note
