@@ -223,9 +223,7 @@ def generate_and_visualise(G, z_dim=100, tile_map=None):
         plt.imshow(predicted, cmap="tab20")
         plt.title("Generated Level (Discrete Tiles)")
         plt.colorbar()
-        # Non-blocking show so the script can continue and exit without waiting for window close.
-        plt.show(block=False)
-        plt.pause(0.001)
+        plt.show()
 
 # This allows the script to be run directly for training and visualisation, while also allowing the functions to be 
 # imported and used in other contexts (like train_all.py).
